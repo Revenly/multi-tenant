@@ -104,8 +104,6 @@ class Test extends TestCase
 
     /**
      * Allows implementation in a test.
-     *
-     * @param Application $app
      */
     protected function beforeSetUp(Application $app)
     {
@@ -114,8 +112,6 @@ class Test extends TestCase
 
     /**
      * Allows implementation in a test.
-     *
-     * @param Application $app
      */
     protected function duringSetUp(Application $app)
     {

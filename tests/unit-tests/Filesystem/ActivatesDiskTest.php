@@ -42,7 +42,7 @@ class ActivatesDiskTest extends Test
         try {
             /** @var \Illuminate\Contracts\Filesystem\Filesystem $disk */
             $disk = $this->files->disk('tenant');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $this->fail("Disk 'tenant' not configured");
         }
 

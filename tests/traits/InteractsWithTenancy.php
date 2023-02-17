@@ -87,9 +87,7 @@ trait InteractsWithTenancy
         });
         Website::updating(function (Website $website) {
             if ($website->isDirty('uuid')) {
-                $this->tenants[$website->getOriginal('uuid')] = Website::unguarded(function () use ($website) {
-                    return new Website($website->getOriginal());
-                });
+                $this->tenants[$website->getOriginal('uuid')] = Website::unguarded(fn() => new Website($website->getOriginal()));
             }
         });
         Website::deleted(function (Website $website) {
@@ -104,20 +102,15 @@ trait InteractsWithTenancy
 
     protected function getReplicatedWebsite(): Website
     {
-        $this->tenant = Website::unguarded(function () {
-            return Website::firstOrNew([
-                'uuid' => 'tenant.testing'
-            ]);
-        });
+        $this->tenant = Website::unguarded(fn() => Website::firstOrNew([
+            'uuid' => 'tenant.testing'
+        ]));
 
         $this->websites->create($this->tenant);
 
         return $this->tenant;
     }
 
-    /**
-     * @param bool $save
-     */
     protected function setUpHostnames(bool $save = false)
     {
         Hostname::unguard();
@@ -144,10 +137,6 @@ trait InteractsWithTenancy
         $this->connection->get()->beginTransaction();
     }
 
-    /**
-     * @param bool $save
-     * @param bool $connect
-     */
     protected function setUpWebsites(bool $save = false, bool $connect = false)
     {
         if (!$this->website) {

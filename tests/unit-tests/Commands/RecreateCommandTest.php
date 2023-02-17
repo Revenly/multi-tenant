@@ -52,7 +52,7 @@ class RecreateCommandTest extends DatabaseCommandTest
             if (!$this->assertFalse($this->connection->get()->getSchemaBuilder()->hasTable('migrations'))) {
                 $this->fail('`migrations` table in tenant db still exists.');
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Surpress exception
         }
 

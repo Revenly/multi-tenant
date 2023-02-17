@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HostnameActionsTest extends Test
 {
-    const RESPONSE = 'ok';
+    public const RESPONSE = 'ok';
 
     /**
      * @test
@@ -51,9 +51,7 @@ class HostnameActionsTest extends Test
         $this->hostname->save();
 
         // Rebind the updated model.
-        $this->app->bind(CurrentHostname::class, function () {
-            return $this->hostname;
-        });
+        $this->app->bind(CurrentHostname::class, fn() => $this->hostname);
 
         $this->assertEquals(static::RESPONSE, $this->middleware($this->hostname));
     }
@@ -81,9 +79,7 @@ class HostnameActionsTest extends Test
 
             $request = new Request();
 
-            $middleware->handle($request, function () {
-                return static::RESPONSE;
-            });
+            $middleware->handle($request, fn() => static::RESPONSE);
         } catch (Exception $e) {
             $this->assertInstanceOf(NotFoundHttpException::class, $e);
         }
@@ -104,9 +100,7 @@ class HostnameActionsTest extends Test
         $request = new Request();
         $middleware = new HostnameActions(app()->make(Redirector::class));
 
-        return $middleware->handle($request, function () {
-            return static::RESPONSE;
-        });
+        return $middleware->handle($request, fn() => static::RESPONSE);
     }
 
     protected function duringSetUp(Application $app)
