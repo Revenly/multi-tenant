@@ -89,7 +89,6 @@ class Environment
      * Get or set the current hostname.
      *
      * @param Hostname|null $hostname
-     * @return Hostname|null
      */
     public function hostname(Hostname $hostname = null): ?Hostname
     {
@@ -132,9 +131,7 @@ class Environment
 
     protected function defaults()
     {
-        $empty = function () {
-            return null;
-        };
+        $empty = fn() => null;
 
         $this->app->singleton(Tenant::class, $empty);
         $this->app->singleton(CurrentHostname::class, $empty);

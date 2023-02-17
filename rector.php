@@ -8,27 +8,7 @@ use Rector\Set\ValueObject\LevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
-        __DIR__ . '/src/Abstracts',
-        __DIR__ . '/src/Contracts',
-        __DIR__ . '/src/Database',
-        __DIR__ . '/src/Events',
-        __DIR__ . '/src/Facades',
-        __DIR__ . '/src/Jobs',
-        __DIR__ . '/src/Logging',
-        __DIR__ . '/src/Models',
-        __DIR__ . '/src/Queue',
-        __DIR__ . '/src/Traits',
-        __DIR__ . '/src/Validators',
-        __DIR__ . '/src/Commands',
-        __DIR__ . '/src/Controllers',
-        __DIR__ . '/src/Exceptions',
-        __DIR__ . '/src/Generators',
-        __DIR__ . '/src/Listeners',
-        __DIR__ . '/src/Middleware',
-        __DIR__ . '/src/Providers',
-        __DIR__ . '/src/Repositories',
-        __DIR__ . '/src/Translations',
-        __DIR__ . '/src/Website',
+        __DIR__ . '/src',
         __DIR__ . '/tests',
     ]);
 
