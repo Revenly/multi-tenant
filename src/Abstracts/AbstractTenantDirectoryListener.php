@@ -67,9 +67,6 @@ abstract class AbstractTenantDirectoryListener
         $this->tenantFilesystemEnabled = $config->get('tenancy.website.disk') !== false;
     }
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         if ($this->tenantFilesystemEnabled && $this->config->get("{$this->configBaseKey}.enabled")) {
@@ -79,7 +76,6 @@ abstract class AbstractTenantDirectoryListener
 
     /**
      * Proxies fired events to configure the handler.
-     * @param WebsiteEvent $event
      */
     public function proxy(WebsiteEvent $event)
     {
@@ -101,14 +97,10 @@ abstract class AbstractTenantDirectoryListener
     }
 
     /**
-     * @param WebsiteEvent $event
      * @return void
      */
     abstract public function load(WebsiteEvent $event);
 
-    /**
-     * @return bool
-     */
     protected function exists(): bool
     {
         if (!$this->directory()->getWebsite()) {
