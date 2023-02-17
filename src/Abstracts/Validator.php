@@ -126,7 +126,7 @@ abstract class Validator
             $model->getKey(),
             $website->getTable(),
             $hostname->getTable()
-        ], $rule))->toArray())->toArray();
+        ], (string) $rule))->toArray())->toArray();
     }
 
     public function getRulesFor($model, $for = 'create'): array
