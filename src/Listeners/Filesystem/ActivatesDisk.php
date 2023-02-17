@@ -24,27 +24,15 @@ use Illuminate\Support\Arr;
 
 class ActivatesDisk
 {
-    /**
-     * @var FilesystemManager
-     */
-    private $filesystem;
-
-    public function __construct(Factory $filesystem)
+    public function __construct(private readonly Factory $filesystem)
     {
-        $this->filesystem = $filesystem;
     }
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         $events->listen([Identified::class, Switched::class], [$this, 'activate']);
     }
 
-    /**
-     * @param WebsiteEvent $event
-     */
     public function activate(WebsiteEvent $event)
     {
         if ($event->website) {

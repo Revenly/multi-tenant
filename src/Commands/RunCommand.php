@@ -44,9 +44,6 @@ class RunCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param Environment       $environment
-     * @param WebsiteRepository $repository
      */
     public function handle(Environment $environment, WebsiteRepository $repository)
     {
@@ -58,14 +55,14 @@ class RunCommand extends Command
 
         $options = collect($this->option('option') ?? [])
             ->mapWithKeys(function ($value, $key) {
-                list($key, $value) = explode('=', $value, 2);
+                [$key, $value] = explode('=', $value, 2);
 
                 return ["--$key" => $value];
             })
             ->merge($this->option('argument') ?? [])
             ->mapWithKeys(function ($value, $key) {
                 if (!Str::startsWith($key, '--')) {
-                    list($key, $value) = explode('=', $value, 2);
+                    [$key, $value] = explode('=', $value, 2);
                 }
 
                 return [$key => $value];

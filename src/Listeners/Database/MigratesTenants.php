@@ -33,18 +33,11 @@ class MigratesTenants
         $this->connection = $connection;
     }
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Events\Websites\Created::class, [$this, 'migrate']);
     }
 
-    /**
-     * @param WebsiteEvent $event
-     * @return bool
-     */
     public function migrate(WebsiteEvent $event): bool
     {
         $paths = $this->getMigrationPaths();

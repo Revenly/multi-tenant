@@ -42,8 +42,6 @@ class DatabaseGenerator
 
     /**
      * DatabaseGenerator constructor.
-     * @param Connection $connection
-     * @param DatabaseDriverFactory $factory
      */
     public function __construct(Connection $connection, DatabaseDriverFactory $factory)
     {
@@ -52,9 +50,6 @@ class DatabaseGenerator
         $this->factory = $factory;
     }
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Events\Websites\Created::class, [$this, 'created']);
@@ -64,7 +59,6 @@ class DatabaseGenerator
     }
 
     /**
-     * @param Events\Websites\Created $event
      * @throws GeneratorFailedException
      */
     public function created(Events\Websites\Created $event)
@@ -112,7 +106,6 @@ class DatabaseGenerator
     }
 
     /**
-     * @param Events\Websites\Deleted $event
      * @throws GeneratorFailedException
      */
     public function deleted(Events\Websites\Deleted $event)
@@ -146,7 +139,6 @@ class DatabaseGenerator
     }
 
     /**
-     * @param Events\Websites\Updated $event
      * @throws GeneratorFailedException
      */
     public function updated(Events\Websites\Updated $event)

@@ -31,19 +31,11 @@ class SeedsTenants
         $this->connection = $connection;
     }
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Events\Websites\Migrated::class, [$this, 'seed']);
     }
 
-    /**
-     *
-     * @param WebsiteEvent $event
-     * @return bool
-     */
     public function seed(WebsiteEvent $event): bool
     {
         $class = config('tenancy.db.tenant-seed-class');

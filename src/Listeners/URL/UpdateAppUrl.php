@@ -28,13 +28,10 @@ class UpdateAppUrl
         $events->listen([Identified::class, Switched::class], [$this, 'force']);
     }
 
-    /**
-     * @param Identified|Switched $event
-     */
-    public function force($event)
+    public function force(\Hyn\Tenancy\Events\Websites\Identified|\Hyn\Tenancy\Events\Websites\Switched $event)
     {
         if (config('tenancy.hostname.update-app-url', false)) {
-            $scheme = optional(request())->getScheme() ?? parse_url(config('app.url'), PHP_URL_SCHEME);
+            $scheme = optional(request())->getScheme() ?? parse_url((string) config('app.url'), PHP_URL_SCHEME);
             $port = optional(request())->getPort();
             if (in_array($port, [80, 443])) {
                 $port = null;

@@ -45,9 +45,6 @@ class Servant
         $this->filesystemManager = $filesystemManager;
     }
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         $events->listen(
@@ -61,7 +58,7 @@ class Servant
     /**
      * @param AbstractEvent|Events\Hostnames\Attached|Events\Websites\Created $event
      */
-    public function generate(AbstractEvent $event)
+    public function generate(\Hyn\Tenancy\Abstracts\AbstractEvent|\Hyn\Tenancy\Events\Hostnames\Attached|\Hyn\Tenancy\Events\Websites\Created $event)
     {
         $this->each(function ($generator, $service, $config) use ($event) {
             $contents = $path = null;
@@ -88,9 +85,6 @@ class Servant
         });
     }
 
-    /**
-     * @param Events\Websites\Updated $event
-     */
     public function touch(Events\Websites\Updated $event)
     {
         if ($event->website->isDirty('uuid')) {
@@ -119,9 +113,6 @@ class Servant
         }
     }
 
-    /**
-     * @param Events\Websites\Deleted $event
-     */
     public function delete(Events\Websites\Deleted $event)
     {
         $this->each(function ($generator, $service, $config) use ($event) {
@@ -142,13 +133,6 @@ class Servant
         });
     }
 
-    /**
-     * @param string $path
-     * @param string $contents
-     * @param string $service
-     * @param array $config
-     * @return bool
-     */
     protected function writeFileToDisk(string $path, string $contents, string $service, array $config = []): bool
     {
         $filesystem = $this->serviceFilesystem($service, $config);
@@ -162,7 +146,6 @@ class Servant
 
     /**
      * @param $service
-     * @param array $config
      * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     public function serviceFilesystem($service, array $config)
@@ -183,7 +166,6 @@ class Servant
     }
 
     /**
-     * @param array $config
      * @return mixed
      */
     protected function generator(array $config)
@@ -191,16 +173,10 @@ class Servant
         return app(Arr::get($config, 'generator'));
     }
 
-    /**
-     * @return Collection
-     */
     public function services(): Collection
     {
         return collect(config('webserver', []))
-            ->filter(function ($service) {
-                return
-                    Arr::get($service, 'enabled', false) &&
-                    Arr::get($service, 'generator', false);
-            });
+            ->filter(fn($service) => Arr::get($service, 'enabled', false) &&
+            Arr::get($service, 'generator', false));
     }
 }

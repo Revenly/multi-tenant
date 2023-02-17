@@ -27,9 +27,7 @@ class FilesystemProvider extends ServiceProvider
     protected function addDisks()
     {
         collect(config('webserver', []))
-            ->filter(function (array $config) {
-                return Arr::has($config, 'generator');
-            })
+            ->filter(fn(array $config) => Arr::has($config, 'generator'))
             ->keys()
             ->each(function (string $service) {
                 $this->app['config']->set("filesystems.disks.tenancy-webserver-$service", [

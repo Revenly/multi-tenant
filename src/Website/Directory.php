@@ -61,10 +61,6 @@ class Directory implements Filesystem
         return $this->getWebsite() && $this->filesystem->exists($this->path($path));
     }
 
-    /**
-     * @param Website $website
-     * @return Directory
-     */
     public function setWebsite(Website $website): Directory
     {
         $this->website = $website;
@@ -73,9 +69,7 @@ class Directory implements Filesystem
     }
 
     /**
-     * @param string $path
      * @param bool $local
-     * @return string
      */
     public function path(string $path = null, $local = false): string
     {
@@ -200,9 +194,7 @@ class Directory implements Filesystem
     {
         return $this->filesystem->delete(
             collect((array)$paths)
-                ->map(function ($path) {
-                    return $this->path($path);
-                })
+                ->map(fn($path) => $this->path($path))
                 ->values()
                 ->all()
         );
@@ -354,9 +346,6 @@ class Directory implements Filesystem
         return $this->website ?? app(Tenant::class);
     }
 
-    /**
-     * @return bool
-     */
     public function isLocal(): bool
     {
         return $this->filesystem->getAdapter() instanceof Local;

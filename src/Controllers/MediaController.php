@@ -27,14 +27,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class MediaController
 {
-    /**
-     * @var Directory
-     */
-    private $directory;
-
-    public function __construct(Directory $directory)
+    public function __construct(private readonly Directory $directory)
     {
-        $this->directory = $directory;
     }
 
     public function __invoke(string $path)

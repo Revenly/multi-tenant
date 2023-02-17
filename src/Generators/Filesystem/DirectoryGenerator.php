@@ -27,9 +27,6 @@ class DirectoryGenerator
 {
     use DispatchesEvents;
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Events\Created::class, [$this, 'created']);
@@ -37,9 +34,6 @@ class DirectoryGenerator
         $events->listen(Events\Deleted::class, [$this, 'deleted']);
     }
 
-    /**
-     * @return Filesystem
-     */
     protected function filesystem(): Filesystem
     {
         return app('tenancy.disk');
@@ -49,7 +43,6 @@ class DirectoryGenerator
      * Mutates the service based on a website being enabled.
      *
      * @param Events\Created $event
-     * @return bool
      */
     public function created(Events\Created $event): bool
     {
@@ -70,7 +63,6 @@ class DirectoryGenerator
 
     /**
      * @param Events\Updated $event
-     * @return bool
      */
     public function updated(Events\Updated $event): bool
     {
@@ -98,7 +90,6 @@ class DirectoryGenerator
      * Acts on this service whenever a website is disabled.
      *
      * @param Events\Deleted $event
-     * @return bool
      */
     public function deleted(Events\Deleted $event): bool
     {

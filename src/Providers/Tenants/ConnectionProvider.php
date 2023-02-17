@@ -37,39 +37,27 @@ class ConnectionProvider extends ServiceProvider
      */
     protected function registerMigrationCommands()
     {
-        $this->app->singleton(Console\Migrations\FreshCommand::class, function (Application $app) {
-            return new Console\Migrations\FreshCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
-        });
-        $this->app->singleton(Console\Migrations\MigrateCommand::class, function (Application $app) {
-            return new Console\Migrations\MigrateCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
-        });
-        $this->app->singleton(Console\Migrations\RollbackCommand::class, function (Application $app) {
-            return new Console\Migrations\RollbackCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
-        });
-        $this->app->singleton(Console\Migrations\ResetCommand::class, function (Application $app) {
-            return new Console\Migrations\ResetCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
-        });
-        $this->app->singleton(Console\Migrations\RefreshCommand::class, function (Application $app) {
-            return new Console\Migrations\RefreshCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
-        });
-        $this->app->singleton(Console\Seeds\SeedCommand::class, function (Application $app) {
-            return new Console\Seeds\SeedCommand($app['db']);
-        });
+        $this->app->singleton(Console\Migrations\FreshCommand::class, fn(Application $app) => new Console\Migrations\FreshCommand(
+            $app->make('migrator'),
+            $app->make("events")
+        ));
+        $this->app->singleton(Console\Migrations\MigrateCommand::class, fn(Application $app) => new Console\Migrations\MigrateCommand(
+            $app->make('migrator'),
+            $app->make("events")
+        ));
+        $this->app->singleton(Console\Migrations\RollbackCommand::class, fn(Application $app) => new Console\Migrations\RollbackCommand(
+            $app->make('migrator'),
+            $app->make("events")
+        ));
+        $this->app->singleton(Console\Migrations\ResetCommand::class, fn(Application $app) => new Console\Migrations\ResetCommand(
+            $app->make('migrator'),
+            $app->make("events")
+        ));
+        $this->app->singleton(Console\Migrations\RefreshCommand::class, fn(Application $app) => new Console\Migrations\RefreshCommand(
+            $app->make('migrator'),
+            $app->make("events")
+        ));
+        $this->app->singleton(Console\Seeds\SeedCommand::class, fn(Application $app) => new Console\Seeds\SeedCommand($app['db']));
 
         $this->commands([
             Console\Migrations\FreshCommand::class,
@@ -86,7 +74,7 @@ class ConnectionProvider extends ServiceProvider
         foreach (['system', 'tenant'] as $type) {
             $models = config("tenancy.db.force-$type-connection-of-models", []);
 
-            if (count($models)) {
+            if (is_countable($models) ? count($models) : 0) {
                 $resolver = new Resolver(
                     $this->app->make(Connection::class)->{$type . 'Name'}(),
                     $this->app['db']
