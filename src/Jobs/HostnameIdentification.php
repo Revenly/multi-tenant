@@ -25,8 +25,6 @@ class HostnameIdentification
     use DispatchesEvents;
 
     /**
-     * @param Request $request
-     * @param HostnameRepository $hostnameRepository
      * @return Hostname|null
      */
     public function handle(Request $request, HostnameRepository $hostnameRepository)

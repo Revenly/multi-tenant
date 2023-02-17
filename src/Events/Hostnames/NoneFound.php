@@ -26,7 +26,6 @@ class NoneFound extends AbstractEvent
 
     /**
      * NoneFound constructor.
-     * @param Request $request
      */
     public function __construct(Request $request)
     {

@@ -146,7 +146,7 @@ class Connection
 
         if (Arr::get($existing, 'uuid') === optional($website)->uuid) {
             $this->emitEvent(
-                new Events\Database\ConnectionSet($website, $connection, false)
+                new Events\Database\ConnectionSet($connection, $website, false)
             );
 
             return true;
@@ -163,7 +163,7 @@ class Connection
         }
 
         $this->emitEvent(
-            new Events\Database\ConnectionSet($website, $connection)
+            new Events\Database\ConnectionSet($connection, $website)
         );
 
         return true;

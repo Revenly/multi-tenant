@@ -25,7 +25,6 @@ class Switched extends HostnameEvent
     public $old;
 
     /**
-     * @param Hostname $hostname
      * @return $this
      */
     public function setOld(Hostname $hostname)
