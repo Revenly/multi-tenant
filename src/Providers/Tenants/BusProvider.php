@@ -22,8 +22,6 @@ class BusProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton(DispatcherContract::class, function ($app) {
-            return new Dispatcher($app);
-        });
+        $this->app->singleton(DispatcherContract::class, fn($app) => new Dispatcher($app));
     }
 }

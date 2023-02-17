@@ -44,9 +44,6 @@ class HostnameRepository implements Contract
 
     /**
      * HostnameRepository constructor.
-     * @param Hostname $hostname
-     * @param HostnameValidator $validator
-     * @param Factory $cache
      */
     public function __construct(Hostname $hostname, HostnameValidator $validator, Factory $cache)
     {
@@ -56,14 +53,11 @@ class HostnameRepository implements Contract
     }
 
     /**
-     * @param string $hostname
      * @return Hostname|null
      */
     public function findByHostname(string $hostname)
     {
-        $model = $this->cache->remember("tenancy.hostname.$hostname", config('tenancy.hostname.cache'), function () use ($hostname) {
-            return $this->hostname->newQuery()->where('fqdn', $hostname)->first() ?? 'none';
-        });
+        $model = $this->cache->remember("tenancy.hostname.$hostname", config('tenancy.hostname.cache'), fn() => $this->hostname->newQuery()->where('fqdn', $hostname)->first() ?? 'none');
 
         return $model === 'none' ? null : $model;
     }
@@ -121,9 +115,7 @@ class HostnameRepository implements Contract
 
         $this->validator->save($hostname);
 
-        $dirty = collect(array_keys($hostname->getDirty()))->mapWithKeys(function ($value, $key) use ($hostname) {
-            return [ $value => $hostname->getOriginal($value) ];
-        });
+        $dirty = collect(array_keys($hostname->getDirty()))->mapWithKeys(fn($value, $key) => [ $value => $hostname->getOriginal($value) ]);
 
         $hostname->save();
 

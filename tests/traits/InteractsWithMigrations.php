@@ -48,10 +48,8 @@ trait InteractsWithMigrations
     }
 
     /**
-     * @param string        $command
      * @param callable|null $callback
      * @param callable|null $hook
-     * @param array         $commandOptions
      */
     protected function migrateAndTest(string $command, callable $callback = null, callable $hook = null, array $commandOptions = [])
     {

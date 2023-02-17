@@ -35,7 +35,6 @@ class LoadsViews extends AbstractTenantDirectoryListener
     protected $viewsPath;
 
     /**
-     * @param WebsiteEvent $event
      * @throws FilesystemException
      */
     public function load(WebsiteEvent $event)

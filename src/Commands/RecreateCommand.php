@@ -53,9 +53,6 @@ class RecreateCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param Connection        $connection
-     * @param WebsiteRepository $repository
      */
     public function handle(Connection $connection, WebsiteRepository $repository)
     {
@@ -75,9 +72,6 @@ class RecreateCommand extends Command
 
     /**
      * Checks if tenant database exists.
-     *
-     * @param Website $website
-     * @return bool
      */
     protected function tenantDatabaseExists(Website $website) : bool
     {
@@ -89,7 +83,7 @@ class RecreateCommand extends Command
             if ($schema->hasTable($this->table)) {
                 return true;
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Suppress exception
         }
 

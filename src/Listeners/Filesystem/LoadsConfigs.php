@@ -28,17 +28,11 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
      */
     protected $path = 'config';
 
-    /**
-     * @param WebsiteEvent $event
-     */
     public function load(WebsiteEvent $event)
     {
         $this->readConfigurationFiles($this->path);
     }
 
-    /**
-     * @param string $path
-     */
     protected function readConfigurationFiles(string $path)
     {
         foreach ($this->directory()->files($path) as $file) {
@@ -46,7 +40,7 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
                 continue;
             }
 
-            $key = basename($file, '.php');
+            $key = basename((string) $file, '.php');
 
 
             // Blacklisted; skip.

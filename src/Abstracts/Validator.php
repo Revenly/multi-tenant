@@ -37,10 +37,6 @@ abstract class Validator
      */
     protected $delete = [];
 
-    /**
-     * @param Model $model
-     * @return bool
-     */
     public function save(Model $model): bool
     {
         if ($model->exists) {
@@ -51,7 +47,6 @@ abstract class Validator
     }
 
     /**
-     * @param Model $model
      * @return bool
      */
     public function delete(Model $model)
@@ -63,7 +58,6 @@ abstract class Validator
     }
 
     /**
-     * @param Model $model
      * @return bool
      */
     protected function update(Model $model)
@@ -75,7 +69,6 @@ abstract class Validator
     }
 
     /**
-     * @param Model $model
      * @return bool
      */
     protected function create(Model $model)
@@ -87,8 +80,6 @@ abstract class Validator
     }
 
     /**
-     * @param Model $model
-     * @param array $rules
      * @return bool
      * @throws ModelValidationException
      */
@@ -113,8 +104,6 @@ abstract class Validator
     }
 
     /**
-     * @param array $rules
-     * @param Model $model
      * @return array
      */
     protected function replaceVariables(array $rules, Model $model)
@@ -125,23 +114,19 @@ abstract class Validator
         $hostname = app(Hostname::class);
         $website = app(Website::class);
 
-        return collect($rules)->map(function ($ruleSet) use ($connection, $model, $hostname, $website) {
-            return collect($ruleSet)->map(function ($rule) use ($connection, $model, $hostname, $website) {
-                return str_replace([
-                    '%system%',
-                    '%tenant%',
-                    '%id%',
-                    '%websites%',
-                    '%hostnames%'
-                ], [
-                    $connection->systemName(),
-                    $connection->tenantName(),
-                    $model->getKey(),
-                    $website->getTable(),
-                    $hostname->getTable()
-                ], $rule);
-            })->toArray();
-        })->toArray();
+        return collect($rules)->map(fn($ruleSet) => collect($ruleSet)->map(fn($rule) => str_replace([
+            '%system%',
+            '%tenant%',
+            '%id%',
+            '%websites%',
+            '%hostnames%'
+        ], [
+            $connection->systemName(),
+            $connection->tenantName(),
+            $model->getKey(),
+            $website->getTable(),
+            $hostname->getTable()
+        ], (string) $rule))->toArray())->toArray();
     }
 
     public function getRulesFor($model, $for = 'create'): array

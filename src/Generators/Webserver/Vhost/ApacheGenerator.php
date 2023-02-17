@@ -22,18 +22,11 @@ use Symfony\Component\Process\Process;
 
 class ApacheGenerator implements VhostGenerator, ReloadsServices
 {
-    /**
-     * @var Directory
-     */
-    private $directory;
-
-    public function __construct(Directory $directory)
+    public function __construct(private readonly Directory $directory)
     {
-        $this->directory = $directory;
     }
 
     /**
-     * @param Website $website
      * @return null|string
      */
     public function media(Website $website)
@@ -80,9 +73,6 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function testConfiguration(): bool
     {
         $test = config('webserver.apache2.paths.actions.test-config');

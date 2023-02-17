@@ -40,9 +40,6 @@ class WebsiteRepository implements Contract
 
     /**
      * WebsiteRepository constructor.
-     * @param Website $website
-     * @param WebsiteValidator $validator
-     * @param Factory $cache
      */
     public function __construct(Website $website, WebsiteValidator $validator, Factory $cache)
     {
@@ -52,14 +49,11 @@ class WebsiteRepository implements Contract
     }
 
     /**
-     * @param string $uuid
      * @return Website|null
      */
     public function findByUuid(string $uuid)
     {
-        $model = $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), function () use ($uuid) {
-            return $this->query()->where('uuid', $uuid)->first() ?? 'none';
-        });
+        $model = $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), fn() => $this->query()->where('uuid', $uuid)->first() ?? 'none');
 
         return $model === 'none' ? null : $model;
     }
@@ -116,9 +110,7 @@ class WebsiteRepository implements Contract
 
         $this->validator->save($website);
 
-        $dirty = collect(array_keys($website->getDirty()))->mapWithKeys(function ($value, $key) use ($website) {
-            return [ $value => $website->getOriginal($value) ];
-        });
+        $dirty = collect(array_keys($website->getDirty()))->mapWithKeys(fn($value, $key) => [ $value => $website->getOriginal($value) ]);
 
         $website->save();
 

@@ -40,12 +40,6 @@ class ConfigurationLoading extends AbstractEvent
      */
     public $website;
 
-    /**
-     * @param string     $mode
-     * @param array      $configuration
-     * @param Connection $connection
-     * @param Website    $website
-     */
     public function __construct(string &$mode, array &$configuration, Connection &$connection, Website $website)
     {
         $this->mode = &$mode;

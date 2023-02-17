@@ -35,11 +35,6 @@ class ConfigurationLoaded extends AbstractEvent
      */
     public $website;
 
-    /**
-     * @param array      $configuration
-     * @param Connection $connection
-     * @param Website    $website
-     */
     public function __construct(array &$configuration, Connection &$connection, Website $website)
     {
         $this->configuration = &$configuration;

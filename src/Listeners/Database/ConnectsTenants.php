@@ -31,9 +31,6 @@ class ConnectsTenants
         $this->connection = $connection;
     }
 
-    /**
-     * @param Dispatcher $events
-     */
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Events\Websites\Identified::class, [$this, 'switch']);
@@ -42,9 +39,6 @@ class ConnectsTenants
 
     /**
      * Reacts to this service when we switch the active tenant website.
-     *
-     * @param WebsiteEvent $event
-     * @return bool
      */
     public function switch(WebsiteEvent $event) : bool
     {

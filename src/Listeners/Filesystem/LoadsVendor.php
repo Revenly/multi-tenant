@@ -28,7 +28,6 @@ class LoadsVendor extends AbstractTenantDirectoryListener
     protected $path = 'vendor/autoload.php';
 
     /**
-     * @param WebsiteEvent $event
      * @throws FilesystemException
      */
     public function load(WebsiteEvent $event)

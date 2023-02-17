@@ -34,7 +34,6 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
     protected $path = 'lang';
 
     /**
-     * @param WebsiteEvent $event
      * @throws FilesystemException
      */
     public function load(WebsiteEvent $event)
@@ -46,9 +45,6 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
         }
     }
 
-    /**
-     * @param string $path
-     */
     protected function readLanguageFiles(string $path)
     {
         if (config('tenancy.folders.trans.override-global')) {

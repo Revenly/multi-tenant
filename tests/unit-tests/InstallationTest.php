@@ -78,7 +78,7 @@ class InstallationTest extends Test
 
         try {
             Hostname::first();
-        } catch (QueryException $e) {
+        } catch (QueryException) {
             $works = false;
         }
 
@@ -147,15 +147,10 @@ class InstallationTest extends Test
         $this->assertTrue(is_string($generator->generate($this->website)));
     }
 
-    /**
-     * @param Application $app
-     */
     protected function duringSetUp(Application $app)
     {
         $router = $app->make(Router::class);
 
-        $router->get('default', function () {
-            return app(CurrentHostname::class)->toJson();
-        });
+        $router->get('default', fn() => app(CurrentHostname::class)->toJson());
     }
 }

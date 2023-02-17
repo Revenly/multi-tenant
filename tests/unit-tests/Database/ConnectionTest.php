@@ -51,7 +51,7 @@ class ConnectionTest extends Test
 
         try {
             $this->connection->get();
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             $failsWithoutWebsite = true;
         }
 

@@ -24,7 +24,6 @@ class TenantAwareLogger
     /**
      * Create a custom Monolog instance and pipe logs to the tenant directory.
      *
-     * @param  array  $config
      * @return \Monolog\Logger
      */
     public function __invoke(array $config)

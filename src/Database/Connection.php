@@ -33,26 +33,26 @@ class Connection
 {
     use DispatchesEvents, ConvertsEntityToWebsite, Macroable;
 
-    const DEFAULT_SYSTEM_NAME = 'system';
-    const DEFAULT_TENANT_NAME = 'tenant';
+    public const DEFAULT_SYSTEM_NAME = 'system';
+    public const DEFAULT_TENANT_NAME = 'tenant';
 
     /**
     * @deprecated
     */
-    const DEFAULT_MIGRATION_NAME = 'tenant-migration';
+    public const DEFAULT_MIGRATION_NAME = 'tenant-migration';
 
-    const DIVISION_MODE_SEPARATE_DATABASE = 'database';
-    const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
+    public const DIVISION_MODE_SEPARATE_DATABASE = 'database';
+    public const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
 
     /**
      * Allows division by schema. Postges only.
      */
-    const DIVISION_MODE_SEPARATE_SCHEMA = 'schema';
+    public const DIVISION_MODE_SEPARATE_SCHEMA = 'schema';
 
     /**
      * Allows manually setting the configuration during event callbacks.
      */
-    const DIVISION_MODE_BYPASS = 'bypass';
+    public const DIVISION_MODE_BYPASS = 'bypass';
 
     /**
      * @var Config
@@ -82,10 +82,6 @@ class Connection
 
     /**
      * Connection constructor.
-     * @param Config $config
-     * @param PasswordGenerator $passwordGenerator
-     * @param DatabaseManager $db
-     * @param Kernel $artisan
      */
     public function __construct(
         Config $config,
@@ -110,8 +106,6 @@ class Connection
 
     /**
      * Gets the currently active tenant connection.
-     *
-     * @return \Illuminate\Database\Connection
      */
     public function get(): \Illuminate\Database\Connection
     {
@@ -122,24 +116,21 @@ class Connection
      * Checks whether a connection has been set up.
      *
      * @param string|null $connection
-     * @return bool
      */
     public function exists(string $connection = null): bool
     {
-        $connection = $connection ?? $this->tenantName();
+        $connection ??= $this->tenantName();
 
         return Arr::has($this->db->getConnections(), $connection);
     }
 
     /**
-     * @param Hostname|Website $to
      * @param null $connection
-     * @return bool
      * @throws ConnectionException
      */
-    public function set($to, $connection = null): bool
+    public function set(\Hyn\Tenancy\Contracts\Hostname|\Hyn\Tenancy\Contracts\Website $to, $connection = null): bool
     {
-        $connection = $connection ?? $this->tenantName();
+        $connection ??= $this->tenantName();
 
         $website = $this->convertWebsiteOrHostnameToWebsite($to);
 
@@ -155,7 +146,7 @@ class Connection
 
         if (Arr::get($existing, 'uuid') === optional($website)->uuid) {
             $this->emitEvent(
-                new Events\Database\ConnectionSet($website, $connection, false)
+                new Events\Database\ConnectionSet($connection, $website, false)
             );
 
             return true;
@@ -172,7 +163,7 @@ class Connection
         }
 
         $this->emitEvent(
-            new Events\Database\ConnectionSet($website, $connection)
+            new Events\Database\ConnectionSet($connection, $website)
         );
 
         return true;
@@ -180,7 +171,7 @@ class Connection
 
     public function configuration(string $connection = null): array
     {
-        $connection = $connection ?? $this->tenantName();
+        $connection ??= $this->tenantName();
 
         return $this->config->get(
             sprintf('database.connections.%s', $connection),
@@ -192,7 +183,6 @@ class Connection
      * Gets the system connection.
      *
      * @param Hostname|Website|null $for The hostname or website for which to retrieve a system connection.
-     * @return \Illuminate\Database\Connection
      */
     public function system($for = null): \Illuminate\Database\Connection
     {
@@ -205,17 +195,11 @@ class Connection
         );
     }
 
-    /**
-     * @return string
-     */
     public function systemName(): string
     {
         return $this->config->get('tenancy.db.system-connection-name', static::DEFAULT_SYSTEM_NAME);
     }
 
-    /**
-     * @return string
-     */
     public function tenantName(): string
     {
         return $this->config->get('tenancy.db.tenant-connection-name', static::DEFAULT_TENANT_NAME);
@@ -227,7 +211,7 @@ class Connection
      */
     public function purge($connection = null)
     {
-        $connection = $connection ?? $this->tenantName();
+        $connection ??= $this->tenantName();
 
         $this->db->purge(
             $connection
@@ -240,11 +224,9 @@ class Connection
     }
 
     /**
-     * @param Hostname|Website $for
      * @param string|null $path
-     * @return bool
      */
-    public function migrate($for, string $path = null): bool
+    public function migrate(\Hyn\Tenancy\Contracts\Hostname|\Hyn\Tenancy\Contracts\Website $for, string $path = null): bool
     {
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
@@ -268,12 +250,7 @@ class Connection
         return $code === 0;
     }
 
-    /**
-     * @param Website|Hostname $for
-     * @param string $class
-     * @return bool
-     */
-    public function seed($for, string $class = null): bool
+    public function seed(\Hyn\Tenancy\Contracts\Website|\Hyn\Tenancy\Contracts\Hostname $for, string $class = null): bool
     {
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
@@ -294,8 +271,6 @@ class Connection
 
 
     /**
-     * @param Website $website
-     * @return array
      * @throws ConnectionException
      */
     public function generateConfigurationArray(Website $website): array

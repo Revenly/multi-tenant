@@ -37,17 +37,12 @@ class HostnameActions
      */
     protected $redirect;
 
-    /**
-     * @param Redirector $redirect
-     */
     public function __construct(Redirector $redirect)
     {
         $this->redirect = $redirect;
     }
 
     /**
-     * @param Request $request
-     * @param Closure $next
      * @return RedirectResponse
      */
     public function handle(Request $request, Closure $next)
@@ -76,7 +71,6 @@ class HostnameActions
     }
 
     /**
-     * @param Hostname $hostname
      * @return RedirectResponse
      */
     protected function redirect(Hostname $hostname)
@@ -87,8 +81,6 @@ class HostnameActions
     }
 
     /**
-     * @param Hostname $hostname
-     * @param Request $request
      * @return RedirectResponse
      */
     protected function secure(Hostname $hostname, Request $request)
@@ -98,10 +90,7 @@ class HostnameActions
         return $this->redirect->secure(ltrim($request->getRequestUri(), '/'));
     }
 
-    /**
-     * @param Hostname $hostname
-     */
-    protected function maintenance(Hostname $hostname)
+    protected function maintenance(Hostname $hostname): never
     {
         $this->emitEvent(new UnderMaintenance($hostname));
         throw new MaintenanceModeException($hostname->under_maintenance_since->timestamp);
@@ -109,7 +98,6 @@ class HostnameActions
 
     /**
      * Aborts the application.
-     * @param Request $request
      */
     protected function abort(Request $request)
     {

@@ -27,7 +27,7 @@ trait InteractsWithBuilds
 
         if ($name && preg_match(
             '/^php\-(?<php_version>[0-9\.]+)\-(?<webserver>[a-z]+)$/',
-            $name,
+            (string) $name,
             $m
         )) {
             $this->buildWebserver = $m['webserver'];

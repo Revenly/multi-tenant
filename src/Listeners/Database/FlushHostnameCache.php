@@ -19,14 +19,8 @@ use Illuminate\Contracts\Cache\Factory;
 
 class FlushHostnameCache
 {
-    /**
-     * @var Factory
-     */
-    private $cache;
-
-    public function __construct(Factory $cache)
+    public function __construct(private readonly Factory $cache)
     {
-        $this->cache = $cache;
     }
 
     public function saved(Hostname $hostname)

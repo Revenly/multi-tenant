@@ -25,9 +25,7 @@ class DatabaseDriverProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('tenancy.db.drivers', function () {
-            return collect($this->drivers());
-        });
+        $this->app->singleton('tenancy.db.drivers', fn() => collect($this->drivers()));
         
         $this->app->singleton(DatabaseDriverFactory::class);
     }

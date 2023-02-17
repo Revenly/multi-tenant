@@ -43,9 +43,7 @@ class TenancyProvider extends ServiceProvider
 
 
         $this->app->booted(function ($app) {
-            $app->singleton(Environment::class, function ($app) {
-                return new Environment($app);
-            });
+            $app->singleton(Environment::class, fn($app) => new Environment($app));
         });
         $this->app->singleton(Contracts\Repositories\HostnameRepository::class, Repositories\HostnameRepository::class);
         $this->app->singleton(Contracts\Repositories\WebsiteRepository::class, Repositories\WebsiteRepository::class);

@@ -27,7 +27,6 @@ class MultiFileLoader implements Loader
     protected $hints = [];
 
     /**
-     * @param Loader $loader
      * @return $this
      */
     public function addLoader(Loader $loader)

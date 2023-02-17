@@ -29,7 +29,6 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
     protected $path = 'routes.php';
 
     /**
-     * @param WebsiteEvent $event
      * @throws FilesystemException
      */
     public function load(WebsiteEvent $event)
@@ -51,8 +50,6 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
 
         $prefix = config('tenancy.folders.routes.prefix', '');
 
-        $router->group(['prefix' => $prefix], function ($router) use ($path) {
-            return $this->directory()->getRequire($path);
-        });
+        $router->group(['prefix' => $prefix], fn($router) => $this->directory()->getRequire($path));
     }
 }

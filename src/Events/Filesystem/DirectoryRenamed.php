@@ -25,7 +25,6 @@ class DirectoryRenamed extends FilesystemEvent
     public $old;
 
     /**
-     * @param string $uuid
      * @return $this
      */
     public function setOld(string $uuid)

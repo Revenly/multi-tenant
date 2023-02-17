@@ -35,11 +35,8 @@ class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $website_id;
-
-    public function __construct($website_id = null)
+    public function __construct(public $website_id = null)
     {
-        $this->website_id = $website_id;
     }
 
     public function handle()
@@ -81,9 +78,7 @@ class TenantAwareJobTest extends Test
         $job = new TestJob();
         \dispatch($job);
 
-        Event::assertDispatched(JobProcessed::class, function ($event) {
-            return $event->job->payload()['website_id'] === $this->website->id;
-        });
+        Event::assertDispatched(JobProcessed::class, fn($event) => $event->job->payload()['website_id'] === $this->website->id);
     }
 
     /** @test */
@@ -96,9 +91,7 @@ class TenantAwareJobTest extends Test
         $user = User::factory()->create();
         $user->notify(new TestNotification());
 
-        Event::assertDispatched(JobProcessed::class, function ($event) {
-            return $event->job->payload()['website_id'] === $this->website->id;
-        });
+        Event::assertDispatched(JobProcessed::class, fn($event) => $event->job->payload()['website_id'] === $this->website->id);
     }
 
     /** @test */

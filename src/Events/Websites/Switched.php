@@ -25,7 +25,6 @@ class Switched extends WebsiteEvent
     public $old;
 
     /**
-     * @param Website $website
      * @return $this
      */
     public function setOld(Website $website)
