@@ -18,20 +18,8 @@ use Illuminate\Database\ConnectionResolverInterface;
 
 class Resolver implements ConnectionResolverInterface
 {
-    /**
-     * @var string
-     */
-    private $connection;
-    /**
-     * @var ConnectionResolverInterface
-     */
-    private $connectionResolver;
-
-    public function __construct(string $connection, ConnectionResolverInterface $connectionResolver)
+    public function __construct(private readonly string $connection, private readonly ConnectionResolverInterface $connectionResolver)
     {
-        $this->connection = $connection;
-
-        $this->connectionResolver = $connectionResolver;
     }
 
     public function connection($name = null)

@@ -10,7 +10,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__ . '/src/Abstracts',
         __DIR__ . '/src/Contracts',
-        //__DIR__ . '/src/Database',
+        __DIR__ . '/src/Database',
         //__DIR__ . '/src/Events',
         //__DIR__ . '/src/Facades',
         //__DIR__ . '/src/Jobs',
